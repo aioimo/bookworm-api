@@ -25,7 +25,9 @@
     "eslint-plugin-react": "^7.12.4",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.0",
+    "lodash": "^4.17.11",
     "mongoose": "^5.4.14",
+    "mongoose-unique-validator": "^2.0.2",
     "prettier": "^1.16.4"
   }
 }

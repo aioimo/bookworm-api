@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 
 import auth from "./routes/auth";
+import users from "./routes/users";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
 
 app.use("/api/auth", auth);
+app.use("/api/users", users);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
