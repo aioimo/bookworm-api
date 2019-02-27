@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema(
       unique: true
     },
     passwordHash: { type: String, required: true },
-    confirmed: { type: Boolean, default: false }
+    confirmed: { type: Boolean, default: false },
+    confirmationToken: { type: String, default: "" }
   },
   { timestamps: true }
 );
@@ -27,10 +28,35 @@ userSchema.methods.setPassword = function setPassword(password) {
   this.passwordHash = bcrypt.hashSync(password, 10);
 };
 
+userSchema.methods.setConfirmationToken = function setConfirmationToken() {
+  this.confirmationToken = this.generateJWT();
+};
+
+userSchema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
+  return `${process.env.HOST}/confirmation/${this.confirmationToken}`;
+};
+
+userSchema.methods.generateResetPasswordLink = function generateResetPasswordLink() {
+  return `${
+    process.env.HOST
+  }/reset-password/${this.generateResetPasswordToken()}`;
+};
+
+userSchema.methods.generateResetPasswordToken = function generateResetPasswordToken() {
+  return jwt.sign(
+    {
+      _id: this._id
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+};
+
 userSchema.methods.generateJWT = function generateJWT() {
   return jwt.sign(
     {
-      email: this.email
+      email: this.email,
+      confirmed: this.confirmed
     },
     process.env.JWT_SECRET
   );

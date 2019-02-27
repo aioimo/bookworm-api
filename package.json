@@ -28,6 +28,7 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.4.14",
     "mongoose-unique-validator": "^2.0.2",
+    "nodemailer": "^5.1.1",
     "prettier": "^1.16.4"
   }
 }
